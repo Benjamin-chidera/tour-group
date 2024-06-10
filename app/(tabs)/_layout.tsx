@@ -1,59 +1,76 @@
-import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
+import { View, Text } from "react-native";
+import React from "react";
+import { Tabs } from "expo-router";
+import { FontAwesome, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import Colors from "@/constants/Colors";
 
-import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
-
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+const _layout = () => {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
-      }}>
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          backgroundColor: Colors.bgColor,
+          borderTopWidth: 0,
+          //   paddingBottom: 20,
+          height: 70,
+        },
+        tabBarActiveTintColor: Colors.black,
+        tabBarInactiveTintColor: "#999",
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="compass" color={color} size={size} />
           ),
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="category"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="space-dashboard" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="search"
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <View
+              style={{
+                backgroundColor: Colors.primaryColor,
+                paddingHorizontal: 16,
+                paddingVertical: 12,
+                borderRadius: 10,
+                height: 50,
+              }}
+            >
+              <Ionicons name="search" color={Colors.white} size={size} />
+            </View>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="bookmark"
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="bookmark" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person" color={color} size={size} />
+          ),
         }}
       />
     </Tabs>
   );
-}
+};
+
+export default _layout;
